@@ -1,0 +1,67 @@
+let mensaje = "Typescript es tremendo";
+
+console.log(mensaje);
+
+const rectangulo = {altura : 10, ancho : 5};
+
+const area = rectangulo.altura * rectangulo.ancho;
+
+console.log(area);
+
+function saludar(nombre){
+    return("Hola " + nombre);
+}
+
+console.log(saludar("Brandon"));
+
+let palabra1 = "Hola";
+let palabra2 = "¿Como estás?";
+
+let cadena = `
+
+    ${palabra1}
+    ${palabra2}
+    Brandon!!!
+
+`;
+
+console.log(cadena);
+
+//Tuples
+
+
+let futbolista : [string, number];
+futbolista = ['Pedro', 18];
+
+console.log(`
+La edad del futbolista es ${futbolista[1]}
+Su nombre es ${futbolista[0]}
+`);
+
+//Enum: Forma más amigable de nombrar valores numéricos
+
+enum MarcasDeCoches{
+    Toyota = 96,
+    Ford = 15,
+    Wolkswagen
+}
+
+let toyota : MarcasDeCoches = MarcasDeCoches.Toyota;
+console.log(toyota);
+
+//tipo Any: variables sin tipo
+
+let VariableSinTipo : any = "Hola";
+VariableSinTipo = 10;
+
+console.log(VariableSinTipo);
+
+
+//tipos void: Funciones sin valor de retorno 
+
+function saludo(): void {
+    console.log("Hola amigos, desde función vacía");
+}
+
+saludo();
+
