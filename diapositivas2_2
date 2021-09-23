@@ -1,0 +1,163 @@
+//Parámetros opcionales
+
+function f(n:number){
+    console.log(n.toFixed());
+    console.log(n.toFixed(3));
+}
+
+function f2(n?: number){
+    // ...
+}
+
+function f3(n = 10){
+    //...
+}
+
+//  Overload
+function longitud(a: any[]): number;
+function longitud(x: string): number;
+function longitud(x: any): number{
+    return x.length;
+}
+
+console.log(longitud("hola mundo"));
+console.log(longitud([1, 2, 3, 4, 5]));
+
+function calcularLongitud(x: any[] | string){
+    return x.length;
+}
+
+console.log(calcularLongitud("hola mundo"));
+console.log(calcularLongitud([1,2,3,4,5]));
+
+
+//Uso de this
+const usuario = {
+    id:123,
+    admin: false, 
+    volverseAdmin: function(){
+        this.admin = true;
+    },
+};
+
+console.log(usuario.admin);
+usuario.volverseAdmin();
+console.log(usuario.admin);
+
+const usuario2 = {
+    id: 123, 
+    admin: false, 
+    volverseAdmin: () => {
+        this.admin = true;
+    },
+};
+
+console.log(usuario.admin);
+usuario2.volverseAdmin();
+console.log(usuario.admin);
+
+//Parámetros REST
+function multiplicar(n: number, ...m:number[]): number{
+    return m.reduce((p,c) => {
+        return p*c;
+    }, n);
+}
+
+console.log(multiplicar(2,2));
+console.log(multiplicar(2,2,3));
+console.log(multiplicar(2,2,3,4));
+
+//Parámetros DESTRUCTURING
+function sumar(num){
+    return num.a + num.b + num.c;
+}
+
+const numeros = {a:1,b:2,c:3};
+
+console.log(sumar(numeros));
+
+function sumar2({a,b,c}):number{
+    return a+b+c;
+}
+
+console.log(sumar2({a:1,b:2,c:3}));
+
+function sumar3({a,b,c}: {a:number; b:number; c:number}): number{
+    return a+b+c;
+}
+
+console.log(sumar({a:1,b:2,c:3}));
+
+//TYPES
+function saludar(persona:{nombre:string; edad:number}){
+    return `Hola ${persona.nombre}`;
+}
+console.log(saludar({nombre:"Luis", edad:22}));
+
+interface Persona{
+    nombre:string;
+    edad:number;
+}
+
+function saludar2(persona:Persona){
+    return `Hola ${persona.nombre}`;
+}
+
+console.log(saludar2({nombre:"Elena", edad: 95}));
+
+///PROPIEDADES OPCIONALES///
+interface Computadora{
+    os: 'windows' | 'Linux' | 'mac';
+    monitor?: 'ctr' | 'led'
+    memoria: number;
+    procesador: 'intel' | 'amd'
+}
+
+function imprimir(computador: Computadora){
+    console.log(`Sistema operativo: ${computador.os}`);
+    console.log(`Memoria: ${computador.memoria}`);
+    console.log(`Procesador: ${computador.procesador}`);
+}
+
+imprimir({
+    os:'windows', 
+    memoria: 8,
+    procesador: 'intel',
+});
+
+//Propiedades READONLY
+
+interface Perro{
+    readonly raza: string;
+}
+
+const miCachorro: Perro = {raza: 'Shitzu'};
+console.log(`La raza de mi cachorro es: ${miCachorro.raza}`);
+
+interface Persona2{
+    edad: number;
+}
+
+interface EdadNoEscribible{
+    readonly edad: number;
+}
+
+const Luisa: Persona2  = { edad: 20 };
+const Pedro: EdadNoEscribible = Luisa;
+
+//EXTENDER
+interface Direccion{
+    nombre:string;
+    calle:string;
+    numero:number;
+    ciudad: string;
+    pais: string;
+    codigoPostal: string;
+}
+
+interface DireccionDeUnDepartamento extends Direccion{
+    unidad: string;
+}
+
+
+
