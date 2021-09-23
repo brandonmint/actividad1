@@ -1,0 +1,280 @@
+//Extender múltiples tipos
+interface Computadora2{
+    memoria: string;
+    procesador: string;
+    hdd: string;
+}
+
+interface SistemaOperativo{
+    so: string;
+    version: string;
+}
+
+interface Portatil extends Computadora2, SistemaOperativo{
+    bateria: string;
+    monitor: string;
+    teclado: string;
+}
+
+interface Servidor extends Computadora2, SistemaOperativo{
+    conexion: string;
+}
+
+
+const macbookPro: Portatil = {
+    memoria: "16G",
+    procesador: "intel",
+    hdd: "1TB",
+    so: "osx",
+    version: "catalina",
+    bateria: "litio",
+    monitor: "17 pulgadas",
+    teclado: "español",
+};
+
+const ubuntuServer: Servidor = {
+    memoria: "64G",
+    procesador: "intel",
+    hdd: "4TB",
+    so: "ubuntu",
+    version: "trusty",
+    conexion: "ethernet",
+};
+
+//Intersetion types
+type Portatil1 = Computadora2&SistemaOperativo;
+
+const macbookPro2: Portatil1 = {
+    memoria: "16g",
+    procesador: "intel", 
+    hdd: "1TB", 
+    so: "osx", 
+    version: "catalina",
+};
+
+//Generics
+
+interface Caja<T>{
+    contenido: T;
+}
+
+let cajaDeString: Caja<string> = { contenido: "hola"};
+let cajaDeNumero : Caja<number> = {contenido:100};
+let cajaDeFecha : Caja<Date> = {contenido : new Date()};
+
+
+//Generics array type
+const imprimirTareas = (v: Array<string>) => {
+    v.forEach((v) => {
+        console.log(v);
+    });
+};
+
+const misTareas :string[] = [
+    "levantarse",
+    "lavarse los dientes",
+    "sacar el perro",
+];
+
+imprimirTareas(misTareas);
+
+//Readonly types
+const miLista : ReadonlyArray<string> = ["a","b","c"];
+//miLista.push("d");
+//const miLista2 = new ReadonlyArray("a", "b", "c");
+
+const miLista3 : ReadonlyArray<string> = ["a", "b","c"];
+
+//Types tuples
+type Auto = [string, number];
+
+const prius: Auto = ["toyota", 2015];
+const civic : Auto = ["Honda", 2016];
+
+console.log(`El prius es marca ${prius[0]} y el modelo ${prius[1]}`);
+console.log(`El civic es marca ${civic[0]} y el modelo ${civic[1]}`);
+
+const prius2: [string, number] = ["Toyota", 2015];
+const [marca, modelo] = prius2;
+
+console.log("La marca del prius es", marca);
+console.log("El modelo del prius es", modelo);
+
+//REST TUPLES
+type StringNumberBooleans = [string, number, ...boolean[]];
+const a: StringNumberBooleans = ["a", 1, true, false, true];
+
+//Readonly tuples
+type Auto2 = readonly[string, number];
+const prius3: Auto2 = ["Toyota", 2014];
+
+prius[0] = "Honsa";
+
+//___________________CLASES__________________
+class Punto{
+    x:number;
+    y:number;
+    //x;
+    //y;
+    //x=0;
+    //y=0;
+}
+
+const miPunto = new Punto();
+miPunto.x = 0;
+miPunto.y = 0;
+
+//Clases readonly 
+class Saludo{
+    readonly nombre: string = "mundo";
+
+    constructor(nuevoNombre: string){
+        if(!!nuevoNombre){
+            this.nombre = nuevoNombre; 
+        }
+    }
+}
+
+const miNombre = new Saludo("Elio");
+
+//Constructores de clases
+class Punto2 {
+    x: number;
+    y: number;
+
+    constructor(x = 10, y = 10){
+        this.x = x;
+        this.y = y;
+    }
+}
+
+let miPunto2 = new Punto2();
+console.log(miPunto.x);
+console.log(miPunto.y);
+
+
+//Sobrecarga del constructor 
+class Punto3{
+    constructor(x: number, y: number);
+    constructor(s: string);
+    constructor(xs: number | string, y?: number){
+    }
+}
+
+//Superclases
+
+class Figura{
+    lados = 0;
+}
+
+class Circulo extends Figura{
+    constructor(){
+        super();
+        this.lados = 2;
+    }
+}
+
+//______métodos de clases________
+class Video{
+    titulo : string;
+    
+    constructor(titulo: string){
+        this.titulo = titulo;
+    }
+
+
+    reproducir(): void {
+        console.log(`${this.titulo} se está reprocduciendo`);
+    }
+}
+
+const miVideo = new Video("año nuevo");
+miVideo.reproducir();
+
+
+let titulo = "mi graduación";
+
+class Video2 {
+    titulo: string;
+    asignarTitulo(nuevoTitulo: string){
+        titulo = nuevoTitulo;
+        this.titulo = nuevoTitulo;
+    }
+}
+
+//Setters y Getters
+class Desfile{
+    private _participantes = 0;
+
+    get participantes(): number{
+        return this._participantes;
+    }
+
+    set participantes(v: number){
+        this._participantes = v;
+    }
+}
+
+const desfileHoy = new Desfile();
+desfileHoy.participantes = 100;
+console.log(desfileHoy.participantes);
+
+//Herencia
+interface Encendible{
+    encender(): void;
+}
+
+class Television implements Encendible{
+    encender():void{
+        console.log("El televisot está encendido");
+    }
+}
+
+//EXTENDS
+
+class Animal{
+    moverse() {
+        console.log("El animal se mueve");
+    }
+}
+
+class Perro extends Animal{
+    ladrar(){
+        console.log("el perro ladra");
+    }
+}
+
+const miPerro = new Perro();
+miPerro.moverse();
+miPerro.ladrar();
+
+
+//Sobrecarga
+
+class Padre{
+    saludar(){
+        console.log("Hola");
+    }
+}
+
+
+class Hijo extends Padre{
+    saludar(nombre?: string){
+        if(!!nombre){
+            console.log(`Hola ${nombre}`)
+        }else{
+            super.saludar();
+        }
+    }
+}
+
+const hijo = new Hijo();
+
+hijo.saludar();
+hijo.saludar("luis");
+
+
+
+
+
+
